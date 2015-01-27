@@ -1,0 +1,323 @@
+
+% ********************************************************************
+% General commands
+% ******************************************************************** 
+
+% un ambiente ad hoc per le citazioni
+\newenvironment{citazione}%
+  {\begin{quotation}\small\ignorespaces}%
+  {\end{quotation}}
+
+% [...] ;-)
+\newcommand{\omissis}{[\dots\negthinspace]}
+
+% indica a LaTeX la cartella dove sono riposte le immagini
+\graphicspath{{./},{./Asymptote/}, {./Images/}}
+
+% eccezioni all'algoritmo di sillabazione
+\hyphenation{Fortran ma-cro-istru-zio-ne nitro-idrossil-amminico}
+
+
+% un ambiente ad hoc per gli approfondimenti
+\newenvironment{approfondimento}%
+  {\begin{quotation}\small\ignorespaces}%
+  {\end{quotation}}
+
+% i.e.
+\newcommand{\ie}{i.\,e.}
+\newcommand{\Ie}{I.\,e.}
+\newcommand{\eg}{e.\,g.}
+\newcommand{\Eg}{E.\,g.} 
+
+% th
+\newcommand{\ordth}{\textsuperscript{th}}
+
+
+% ********************************************************************
+% hyperref
+% ******************************************************************** 
+\hypersetup{%
+    colorlinks=true, linktocpage=true, pdfstartpage=1, pdfstartview=FitV,%
+    breaklinks=true, pdfpagemode=UseNone, pageanchor=true, pdfpagemode=UseOutlines,%
+    plainpages=false, bookmarksnumbered, bookmarksopen=true, bookmarksopenlevel=1,%
+    hypertexnames=true, pdfhighlight=/O,%
+    urlcolor=webbrown, linkcolor=RoyalBlue, citecolor=RoyalBlue, pagecolor=RoyalBlue,%
+% uncomment the following line if you want to have black links (e.g., for printing)
+% urlcolor=Black, linkcolor=Black, citecolor=Black, pagecolor=Black,%
+    pdftitle={\myTitle},%
+    pdfauthor={\textcopyright\ \myName},%
+    pdfsubject={},%
+    pdfkeywords={},%
+    pdfcreator={pdfLaTeX},%
+    pdfproducer={LaTeX con hyperref e ClassicThesis}%
+}
+
+\hypersetup{citecolor=webgreen}
+\hypersetup{hyperfootnotes=false,pdfpagelabels}
+
+\newcommand{\mail}[1]{\href{mailto:#1}{\texttt{#1}}}
+
+
+% *****************************************************************************
+% Matematica 
+% *****************************************************************************
+
+% AMSmath packages 
+\usepackage{amssymb}
+\usepackage{amsmath}
+
+% comandi per gli insiemi numerici (serve il pacchetto amssymb)
+\newcommand{\numberset}{\mathbb} 
+\newcommand{\N}{\numberset{N}} 
+\newcommand{\Z}{\numberset{Z}} 
+\newcommand{\Q}{\numberset{Q}} 
+\newcommand{\R}{\numberset{R}} 
+\newcommand{\C}{\numberset{C}} 
+
+% Dirac notation  (serve il pacchetto braket)
+\usepackage{braket} 
+\newcommand{\modul}[1]{\mathinner{\vert#1\vert}} 
+\newcommand{\Modul}[1]{\left\vert#1\right\vert} 
+\newcommand{\norm}[1]{\mathinner{\Vert#1\Vert}}
+\newcommand{\Norm}[1]{\left\Vert#1\right\Vert}
+\newcommand{\conj}[1]{#1^{*}} 
+\newcommand{\adj}[1]{#1^{\dagger}}
+
+% un ambiente per i sistemi
+\newenvironment{sistema}%
+  {\left\lbrace\begin{array}{@{}l@{}}}%
+  {\end{array}\right.}
+
+% pacchetto cool 
+\usepackage{cool}
+\makeatletter
+\Style{%
+ArcTrig=arc,
+IntegrateDifferentialDSymb={{\operator@font d}},
+DSymb={{\operator@font d}},
+DDisplayFunc=inset,DShorten=true}
+\makeatother
+
+% vectors (boldface style, primes are printed also in boldface)
+%\usepackage[veceuler]{utvec}
+\newcommand{\myvec}[1]{\mathbold{#1}}
+
+\def\vec#1{
+   \@ifnextchar'{\p@vec#1}{\np@vec#1}
+}
+\def\np@vec#1{\myvec{#1}}
+\def\p@vec#1#2{%
+   \@ifnextchar'{\p@vec{#1#2}}{\myvec{#1#2}}
+}
+
+\MakeRobust\vec
+
+
+% Riemann P symbol via cool
+\newcommand{\PRiemann}[4]{%
+\listval{#1}{0}%
+\ifthenelse{\NOT \value{COOL@listpointer}=3}%
+{%
+\PackageError{cool}{`PRiemann' Invalid Argument}%
+{Must have comma separated list of length 3}%
+}%
+{}%
+\listval{#2}{0}%
+\ifthenelse{\NOT \value{COOL@listpointer}=3}%
+{%
+\PackageError{cool}{`PRiemann' Invalid Argument}%
+{Must have comma separated list of length 3}%
+}%
+{}%
+\listval{#3}{0}%
+\ifthenelse{\NOT \value{COOL@listpointer}=3}%
+{%
+\PackageError{cool}{`PRiemann' Invalid Argument}%
+{Must have comma separated list of length 3}%
+}%
+{}%
+\mathchoice{%
+P\inbr{\!%
+\begin{array}{cccc}%
+\listval{#1}{1} & \listval{#2}{1} & \listval{#3}{1} & \\%
+\listval{#1}{2} & \listval{#2}{2} & \listval{#3}{2} & #4 \\
+\listval{#1}{3} & \listval{#2}{3} & \listval{#3}{3} & 
+\end{array}%
+    \!}%
+   }%
+   {%
+P\inbr{\!%
+{\listval{#1}{1} \@@atop \listval{#1}{2} \@@atop \listval{#1}{3}}%
+{\listval{#2}{1} \@@atop \listval{#2}{2} \@@atop \listval{#2}{3}}%
+{\listval{#3}{1} \@@atop \listval{#3}{2} \@@atop \listval{#3}{3}}%
+\, , \ #4
+     \!}%
+   }%
+   {%
+P\inbr{\!%
+{\listval{#1}{1} \@@atop \listval{#1}{2} \@@atop \listval{#1}{3}}%
+{\listval{#2}{1} \@@atop \listval{#2}{2} \@@atop \listval{#2}{3}}%
+{\listval{#3}{1} \@@atop \listval{#3}{2} \@@atop \listval{#3}{3}}%
+\, , \ #4
+     \!}%
+   }%
+   {%
+P\inbr{\!%
+{\listval{#1}{1} \@@atop \listval{#1}{2}}%
+{\listval{#2}{1} \@@atop \listval{#2}{2}}%
+{\listval{#3}{1} \@@atop \listval{#3}{2}}%
+\, , \ #4
+     \!}%
+   }%
+}
+
+
+% *****************************************************************************
+% Teoremi e definizioni 
+% *****************************************************************************
+
+\usepackage{amsthm}                       % Serve il pacchetto amsthm.
+
+\makeatletter
+\newtheoremstyle{classicdef}%             % Stile tipografico dei teoremi
+{11pt}%                                   % Spazio che precede l'enunciato
+{11pt}%                                   % Spazio che segue l'enunciato
+{}%                                       % Stile del font dell'enunciato
+{}%                                       % Rientro (se vuoto, nessun rientro;
+%                                         % \parindent = rientro dei capoversi)
+{\scshape}%                               % Font dell'intestazione
+{:}%                                      % Punteggiatura dopo l'intestazione
+{.5em}%                                   % Spazio che segue l'intestazione:
+%                                         % " " = normale spazio inter-parola;
+%                                         % \newline = a capo
+{}%                                       % Specifica intestazione enunciato
+\makeatother
+
+%\theoremstyle{definition}
+\theoremstyle{classicdef}
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{lemma}{Lemma}[chapter]
+\newtheorem{definition}{Definition}[chapter]
+\newtheorem*{homework}{Homework}
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+\renewcommand{\qedsymbol}{\rule{.5em}{.5em}}
+
+
+
+% *****************************************************************************
+% biblatex 
+% *****************************************************************************
+
+\renewcommand{\nameyeardelim}{, }
+
+\defbibheading{bibliography}{%
+\cleardoublepage
+\manualmark
+\phantomsection
+%\addcontentsline{toc}{chapter}{\numberline{}\tocEntry{\bibname}}
+\mtcaddchapter[\numberline{}\tocEntry{\bibname}]
+\myChapter*{\bibname\markboth{\spacedlowsmallcaps{\bibname}}
+{\spacedlowsmallcaps{\bibname}}}}     
+
+% *****************************************************************************
+% caption
+% *****************************************************************************
+\usepackage{caption}                      % Fancy captions and more.
+\captionsetup{format=hang,font=small}
+\captionsetup[table]{skip=\medskipamount} 
+
+
+% *****************************************************************************
+% makeidx, multicol
+% *****************************************************************************
+\let\orgtheindex\theindex
+\let\orgendtheindex\endtheindex
+\def\theindex{%
+	\def\twocolumn{\begin{multicols}{2}}%
+	\def\onecolumn{}%
+	\clearpage
+	\orgtheindex
+}
+\def\endtheindex{%
+	\end{multicols}%
+	\orgendtheindex
+}
+
+\makeindex
+
+% *****************************************************************************
+% breqn
+% *****************************************************************************
+\usepackage{mathtools}                    % Add support for cramped,
+					  % mathlap,etc.
+%\usepackage{siunitx}                      % Add support to print SI units
+\usepackage[euler]{flexisym}              % Add support to Euler font
+\usepackage{breqn}                        % Breqn
+
+\makeatletter
+   \def\eqnumsize{\normalfont \Tf@font}      % Add support to Minion Pro
+\makeatother
+
+\setkeys{breqn}{labelprefix={eq:}}
+
+
+% *****************************************************************************
+% Migliorare il kerning dell'apostrofo coi font MinionPro
+% *****************************************************************************
+\makeatletter 
+\catcode`\'=12 
+\def\qu@te{'} 
+\catcode`'=\active 
+\begingroup 
+\obeylines\obeyspaces% 
+\gdef\@resetactivechars{% 
+\def^^M{\@activechar@info{EOL}\space}% 
+\def {\@activechar@info{space}\space}% 
+}% 
+\endgroup 
+\providecommand{\texorpdfstring}{\@firstoftwo} 
+\protected\def'{\texorpdfstring{\active@quote}{\qu@te}} 
+\def\active@quote{\relax 
+  \ifmmode 
+    \expandafter^\expandafter\bgroup\expandafter\prim@s 
+  \else 
+    \expandafter\futurelet\expandafter\@let@token\expandafter\qu@t@ 
+  \fi} 
+\def\qu@t@{% 
+  \ifx'\@let@token 
+    \qu@te\qu@te\expandafter\@gobble 
+  \else 
+    {}\qu@te{}\penalty\@M\hskip\expandafter\z@skip 
+  \fi} 
+\scantokens\expandafter{% 
+  \expandafter\def\expandafter\pr@m@s\expandafter{\pr@m@s}} 
+\makeatother
+
+
+%%%%%%%%%%%
+% margini %
+% %%%%%%%%%%
+% Suggestions from ClassicThesis
+% Palatino 	10pt: 288--312pt | 609--657pt
+% Palatino 	11pt: 312--336pt | 657--705pt
+% Palatino 	12pt: 360--384pt | 768pt
+\areaset[current]{336pt}{750pt}
+\setlength{\marginparwidth}{7em}
+\setlength{\marginparsep}{2em}%
+
+
+%%%%%%%%%
+% altro %
+%%%%%%%%%
+
+\hypersetup{citecolor=webgreen}
+\hypersetup{pdfstartpage=1}
+
+
+%\usepackage{mdframed}
+\usepackage{nicefrac}
+\usepackage{calligra}
+\usepackage{sidenotes}
+
+
